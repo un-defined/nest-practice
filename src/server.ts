@@ -1,8 +1,18 @@
+import * as express from 'express';
+import * as config from 'config';
+import * as path from 'path';
 import { NestFactory } from '@nestjs/core';
-import { ApplicationModule } from './app.module';
+import { ApplicationModule } from './modules/app.module';
+
+import * as bodyParser from 'body-parser';
+import * as cookieParser from 'cookie-parser';
 
 async function bootstrp() {
     const app = await NestFactory.create(ApplicationModule);
+
+    await app.use(bodyParser.json());
+    await app.use(cookieParser());
+
     await app.listen(3000);
 }
 

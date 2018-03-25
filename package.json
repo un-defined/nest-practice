@@ -4,7 +4,8 @@
   "description": "Personal nest practice project",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "start:watch": "nodemon"
   },
   "repository": {
     "type": "git",
@@ -30,7 +31,9 @@
     "@nestjs/microservices": "^4.6.6",
     "@nestjs/testing": "^4.6.6",
     "@nestjs/websockets": "^4.6.6",
+    "body-parser": "^1.18.2",
     "config": "^1.30.0",
+    "cookie-parser": "^1.4.3",
     "redis": "^2.8.0",
     "reflect-metadata": "^0.1.12",
     "rxjs": "^5.5.7",
