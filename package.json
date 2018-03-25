@@ -1,0 +1,40 @@
+{
+  "name": "nest-practice",
+  "version": "1.0.0",
+  "description": "Personal nest practice project",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/un-defined/nest-practice.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/un-defined/nest-practice/issues"
+  },
+  "homepage": "https://github.com/un-defined/nest-practice#readme",
+  "devDependencies": {
+    "@types/node": "^9.6.0",
+    "eslint": "^4.19.1",
+    "eslint-config-yylint": "0.0.12",
+    "nodemon": "^1.17.2",
+    "ts-node": "^5.0.1",
+    "tslint": "^5.9.1"
+  },
+  "dependencies": {
+    "@nestjs/common": "^4.6.6",
+    "@nestjs/core": "^4.6.6",
+    "@nestjs/microservices": "^4.6.6",
+    "@nestjs/testing": "^4.6.6",
+    "@nestjs/websockets": "^4.6.6",
+    "config": "^1.30.0",
+    "redis": "^2.8.0",
+    "reflect-metadata": "^0.1.12",
+    "rxjs": "^5.5.7",
+    "typescript": "^2.7.2",
+    "winston": "^2.4.1"
+  }
+}
