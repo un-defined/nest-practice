@@ -1,28 +1,70 @@
-import { Component } from '@nestjs/common';
+import { Component, Dependencies } from '@nestjs/common';
 import { HttpException } from '@nestjs/core';
 import { Observable } from 'rxjs/Observable';
 
 @Component()
+@Dependencies('EnumRequestUrl', 'Request', 'Utils')
 export class UserService {
 
-    private users = [
-        { _id: 1, _name: 'Andy', _age: 18 },
-        { _id: 2, _name: 'Angela', _age: 18 }
-    ];
+    constructor(private url, private request, private utils) { }
 
-    getAllUsers() {
-        return Promise.resolve(this.users);
-    }
-
-    getUser(id: number) {
-        const user = this.users.find(user => user._id === id);
-        if (!user) {
-            throw new HttpException('user not fount', 404);
-        }
-        return Promise.resolve(user);
+    static generateSerial() {
+        const SERIAL_NUMBER = 'I00002';
+        const Rand = Math.random();
+        const numb = 10000 + Math.round(Rand * 100000);
+        const str = SERIAL_NUMBER + new Date().toLocaleDateString().replace(/-/g, '').replace(/\//g, '') + numb;
+        return str;
     }
 
     async login(params) {
+        const { security } = this.utils;
         const { userId, password } = params;
+        const reqBody = {
+            source: 'wpt',
+            userId,
+            password: security.md5(security.decode(password)).toUpperCase(),
+        };
+        let ret = await this.request.post({
+            url: this.url.LOGIN,
+            headers: {
+                'Serial-No': UserService.generateSerial(),
+                'Content-Type': 'application/json;charset=utf-8',
+            },
+            form: reqBody,
+        });
+        ret = JSON.parse(ret);
+
+        // TODO: login exception
+        if (ret.retCode !== '000000') throw new Error(ret);
+
+        // generate token
+
+        return {user: ret, token: ''};
+    }
+
+    async changePwd(params) {
+        const { security } = this.utils;
+        const { userId, oldPassword, newPassword } = params;
+        const reqBody = {
+            source: 'wpt',
+            userId,
+            oldPassword: security.md5(security.decode(oldPassword)).toUpperCase(),
+            newPassword: security.md5(security.decode(newPassword)).toUpperCase(),
+        };
+
+        let ret = await this.request.post({
+            url: this.url.MODIFY_PWD,
+            headers: {
+                'Serial-No': UserService.generateSerial(),
+                'Content-Type': 'application/json;charset=utf-8',
+            },
+            form: reqBody,
+        });
+        ret = JSON.parse(ret);
+
+        // TODO: login exception
+        if (ret.retCode !== '000000') throw new Error(ret);
+
+        return ret.data;
     }
 }
